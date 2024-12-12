@@ -36,7 +36,7 @@ export function Conversation() {
                 throw new Error("Wallet not connected");
             }
 
-            let tools;
+            let tools = null;
 
             if(isSolanaWallet(primaryWallet)) {
                 const connection = await primaryWallet.getConnection();
@@ -45,9 +45,7 @@ export function Conversation() {
                 tools = await getOnChainTools({
                     wallet: createSolanaWalletFromDynamic(connection, signer),
                 })
-            }
-            
-            if(isEthereumWallet(primaryWallet)) {
+            } else if(isEthereumWallet(primaryWallet)) {
                 tools = await getOnChainTools({
                     wallet: viem(await primaryWallet.getWalletClient()),
                     plugins: [
@@ -60,11 +58,19 @@ export function Conversation() {
                         logTools: true,
                     },
                 });
+            } else {
+                throw new Error("Unsupported wallet type");
             }
+
+            if (!tools) {
+                throw new Error("Failed to initialize tools");
+            }
+
+            console.log("tools", tools);
 
             // Start the conversation with your agent
             await conversation.startSession({
-                agentId: process.env.NEXT_PUBLIC_ELEVEN_LABS_AGENT_ID ?? "", // Replace with your agent ID
+                agentId: process.env.NEXT_PUBLIC_ELEVEN_LABS_AGENT_ID ?? "",
                 clientTools: tools,
             });
         } catch (error) {
