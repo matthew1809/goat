@@ -11,8 +11,8 @@ import { useDynamicContext } from "@dynamic-labs/sdk-react-core";
 
 import { coingecko } from "@goat-sdk/plugin-coingecko";
 import { viem } from "@goat-sdk/wallet-viem";
-import { solana } from "@goat-sdk/wallet-solana";
 import { sendETH } from "../../../../../../packages/core/dist/plugins/send-eth";
+import { createSolanaWalletFromDynamic } from "../utils";
 
 export function Conversation() {
     const isLoggedIn = useIsLoggedIn();
@@ -43,11 +43,7 @@ export function Conversation() {
                 const signer = await primaryWallet.getSigner();
 
                 tools = await getOnChainTools({
-                    wallet: solana({
-                        // @ts-ignore
-                        signer,
-                        connection,
-                    }),
+                    wallet: createSolanaWalletFromDynamic(connection, signer),
                 })
             }
             
