@@ -18,7 +18,7 @@ export function Conversation() {
     const isLoggedIn = useIsLoggedIn();
     const { primaryWallet, sdkHasLoaded } = useDynamicContext();
 
-    const isConnected = sdkHasLoaded && isLoggedIn && primaryWallet ;
+    const isConnected = sdkHasLoaded && isLoggedIn && primaryWallet;
 
     const conversation = useConversation({
         onConnect: () => console.log("Connected"),
@@ -75,6 +75,10 @@ export function Conversation() {
     const stopConversation = useCallback(async () => {
         await conversation.endSession();
     }, [conversation]);
+
+    if(!sdkHasLoaded) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div className="flex flex-col items-center gap-4">
