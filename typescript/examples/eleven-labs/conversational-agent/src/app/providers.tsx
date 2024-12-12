@@ -8,7 +8,7 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
     return (
         <DynamicContextProvider
             settings={{
-                environmentId: "31b6e93b-23fa-4a26-bab2-3a1cdf4ad7fd", // TODO replace in prod
+                environmentId: "f268a013-0fa0-4d9d-9314-c6919e2dfde7", // TODO replace in prod
                 walletConnectors: [EthereumWalletConnectors, SolanaWalletConnectors],
             }}
         >
