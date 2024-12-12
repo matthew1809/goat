@@ -4,18 +4,21 @@ import { useConversation } from "@11labs/react";
 import { getOnChainTools } from "@goat-sdk/adapter-eleven-labs";
 import { useCallback } from "react";
 
-import { DynamicWidget } from "@dynamic-labs/sdk-react-core";
+import { DynamicWidget, useIsLoggedIn } from "@dynamic-labs/sdk-react-core";
 import { isEthereumWallet } from "@dynamic-labs/ethereum";
+import { isSolanaWallet } from "@dynamic-labs/solana";
 import { useDynamicContext } from "@dynamic-labs/sdk-react-core";
 
 import { coingecko } from "@goat-sdk/plugin-coingecko";
 import { viem } from "@goat-sdk/wallet-viem";
+import { solana } from "@goat-sdk/wallet-solana";
 import { sendETH } from "../../../../../../packages/core/dist/plugins/send-eth";
 
 export function Conversation() {
-    const { primaryWallet } = useDynamicContext();
+    const isLoggedIn = useIsLoggedIn();
+    const { primaryWallet, sdkHasLoaded } = useDynamicContext();
 
-    const isConnected = primaryWallet != null;
+    const isConnected = sdkHasLoaded && isLoggedIn && primaryWallet ;
 
     const conversation = useConversation({
         onConnect: () => console.log("Connected"),
@@ -33,22 +36,35 @@ export function Conversation() {
                 throw new Error("Wallet not connected");
             }
 
-            if (!isEthereumWallet(primaryWallet)) {
-                throw new Error("This wallet is not a Ethereum wallet");
-            }
+            let tools;
 
-            const tools = await getOnChainTools({
-                wallet: viem(await primaryWallet.getWalletClient()),
-                plugins: [
-                    sendETH(),
-                    coingecko({
-                        apiKey: process.env.NEXT_PUBLIC_COINGECKO_API_KEY ?? "",
+            if(isSolanaWallet(primaryWallet)) {
+                const connection = await primaryWallet.getConnection();
+                const signer = await primaryWallet.getSigner();
+
+                tools = await getOnChainTools({
+                    wallet: solana({
+                        // @ts-ignore
+                        signer,
+                        connection,
                     }),
-                ],
-                options: {
-                    logTools: true,
-                },
-            });
+                })
+            }
+            
+            if(isEthereumWallet(primaryWallet)) {
+                tools = await getOnChainTools({
+                    wallet: viem(await primaryWallet.getWalletClient()),
+                    plugins: [
+                        sendETH(),
+                        coingecko({
+                            apiKey: process.env.NEXT_PUBLIC_COINGECKO_API_KEY ?? "",
+                        }),
+                    ],
+                    options: {
+                        logTools: true,
+                    },
+                });
+            }
 
             // Start the conversation with your agent
             await conversation.startSession({
