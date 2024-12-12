@@ -1,4 +1,5 @@
 import type { SolanaReadRequest, SolanaTransaction, SolanaWalletClient } from "@goat-sdk/core";
+import type { ISolana } from "@dynamic-labs/solana-core";
 import { 
     Connection, 
     PublicKey, 
@@ -6,9 +7,9 @@ import {
     VersionedTransaction 
 } from "@solana/web3.js";
 
-export function createSolanaWalletFromDynamic(connection: Connection, signer: any): SolanaWalletClient {
+export function createSolanaWalletFromDynamic(connection: Connection, signer: ISolana): SolanaWalletClient {
     return {
-        getAddress: () => signer.publicKey.toBase58(),
+        getAddress: () => new PublicKey(signer.publicKey!.toBytes()).toBase58(),
         getChain() {
             return {
                 type: "solana",
@@ -18,21 +19,20 @@ export function createSolanaWalletFromDynamic(connection: Connection, signer: an
             const messageBytes = Buffer.from(message);
             const signature = await signer.signMessage(messageBytes);
             return {
-                signature: Buffer.from(signature).toString("hex"),
+                signature: Buffer.from(signature.signature).toString("hex"),
             };
         },
         async sendTransaction({ instructions }: SolanaTransaction) {
             const latestBlockhash = await connection.getLatestBlockhash("confirmed");
             const message = new TransactionMessage({
-                payerKey: signer.publicKey,
+                payerKey: new PublicKey(signer.publicKey!.toBytes()),
                 recentBlockhash: latestBlockhash.blockhash,
                 instructions,
             }).compileToV0Message();
             const transaction = new VersionedTransaction(message);
-
-            transaction.sign([signer]);
-
-            const txid = await connection.sendTransaction(transaction, {
+            const signedTx = await signer.signTransaction(transaction);
+            
+            const txid = await connection.sendTransaction(signedTx, {
                 maxRetries: 5,
             });
 
