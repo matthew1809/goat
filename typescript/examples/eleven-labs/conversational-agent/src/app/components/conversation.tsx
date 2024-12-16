@@ -11,7 +11,7 @@ import { useDynamicContext } from "@dynamic-labs/sdk-react-core";
 
 import { coingecko } from "@goat-sdk/plugin-coingecko";
 import { viem } from "@goat-sdk/wallet-viem";
-import { sendETH } from "../../../../../../packages/core/dist/plugins/send-eth";
+import { sendETH } from "@goat-sdk/core";
 import { createSolanaWalletFromDynamic } from "../utils";
 
 export function Conversation() {
@@ -44,6 +44,11 @@ export function Conversation() {
 
                 tools = await getOnChainTools({
                     wallet: createSolanaWalletFromDynamic(connection, signer),
+                    plugins: [
+                        coingecko({
+                            apiKey: process.env.NEXT_PUBLIC_COINGECKO_API_KEY ?? "",
+                        }),
+                    ],
                 })
             } else if(isEthereumWallet(primaryWallet)) {
                 tools = await getOnChainTools({
