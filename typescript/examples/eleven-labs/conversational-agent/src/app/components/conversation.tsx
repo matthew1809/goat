@@ -4,14 +4,14 @@ import { useConversation } from "@11labs/react";
 import { getOnChainTools } from "@goat-sdk/adapter-eleven-labs";
 import { useCallback } from "react";
 
-import { DynamicWidget, useIsLoggedIn } from "@dynamic-labs/sdk-react-core";
 import { isEthereumWallet } from "@dynamic-labs/ethereum";
-import { isSolanaWallet } from "@dynamic-labs/solana";
+import { DynamicWidget, useIsLoggedIn } from "@dynamic-labs/sdk-react-core";
 import { useDynamicContext } from "@dynamic-labs/sdk-react-core";
+import { isSolanaWallet } from "@dynamic-labs/solana";
 
+import { sendETH } from "@goat-sdk/core";
 import { coingecko } from "@goat-sdk/plugin-coingecko";
 import { viem } from "@goat-sdk/wallet-viem";
-import { sendETH } from "@goat-sdk/core";
 import { createSolanaWalletFromDynamic } from "../utils";
 
 export function Conversation() {
@@ -38,7 +38,7 @@ export function Conversation() {
 
             let tools = null;
 
-            if(isSolanaWallet(primaryWallet)) {
+            if (isSolanaWallet(primaryWallet)) {
                 const connection = await primaryWallet.getConnection();
                 const signer = await primaryWallet.getSigner();
 
@@ -49,8 +49,8 @@ export function Conversation() {
                             apiKey: process.env.NEXT_PUBLIC_COINGECKO_API_KEY ?? "",
                         }),
                     ],
-                })
-            } else if(isEthereumWallet(primaryWallet)) {
+                });
+            } else if (isEthereumWallet(primaryWallet)) {
                 tools = await getOnChainTools({
                     wallet: viem(await primaryWallet.getWalletClient()),
                     plugins: [
@@ -87,7 +87,7 @@ export function Conversation() {
         await conversation.endSession();
     }, [conversation]);
 
-    if(!sdkHasLoaded) {
+    if (!sdkHasLoaded) {
         return <div>Loading...</div>;
     }
 
