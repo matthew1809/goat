@@ -1,6 +1,6 @@
 {
     "name": "@goat-sdk/crossmint",
-    "version": "0.1.6",
+    "version": "0.2.6",
     "sideEffects": false,
     "files": ["dist/**/*", "README.md", "package.json"],
     "scripts": {
@@ -12,12 +12,13 @@
     "module": "./dist/index.mjs",
     "types": "./dist/index.d.ts",
     "dependencies": {
+        "@crossmint/common-sdk-base": "0.3.1",
         "@goat-sdk/core": "workspace:*",
-        "@solana/web3.js": "1.95.8",
+        "@solana/web3.js": "catalog:",
         "abitype": "^1.0.6",
         "bs58": "^6.0.0",
-        "viem": "^2.21.49",
-        "zod": "^3.23.8"
+        "viem": "catalog:",
+        "zod": "catalog:"
     },
     "peerDependencies": {
         "@goat-sdk/core": "workspace:*"

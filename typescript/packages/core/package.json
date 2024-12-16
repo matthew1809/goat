@@ -1,6 +1,6 @@
 {
     "name": "@goat-sdk/core",
-    "version": "0.3.11",
+    "version": "0.3.15",
     "sideEffects": false,
     "files": ["dist/**/*", "README.md", "package.json"],
     "scripts": {
@@ -12,10 +12,18 @@
     "module": "./dist/index.mjs",
     "types": "./dist/index.d.ts",
     "dependencies": {
-        "@solana/web3.js": "1.95.8",
+        "@aptos-labs/ts-sdk": "^1.33.1",
+        "@lit-protocol/lit-node-client": "catalog:",
+        "@lit-protocol/wrapped-keys": "catalog:",
+        "@solana/web3.js": "catalog:",
+        "@chromia/ft4": "catalog:",
         "abitype": "^1.0.6",
-        "viem": "^2.21.49",
-        "zod": "^3.23.8"
+        "postchain-client": "catalog:",
+        "viem": "catalog:",
+        "zod": "catalog:"
+    },
+    "devDependencies": {
+        "@lit-protocol/types": "catalog:"
     },
     "homepage": "https://ohmygoat.dev",
     "repository": {

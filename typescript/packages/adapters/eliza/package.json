@@ -1,6 +1,6 @@
 {
     "name": "@goat-sdk/adapter-eliza",
-    "version": "0.1.6",
+    "version": "0.1.10",
     "sideEffects": false,
     "files": ["dist/**/*", "README.md", "package.json"],
     "scripts": {
@@ -12,12 +12,12 @@
     "module": "./dist/index.mjs",
     "types": "./dist/index.d.ts",
     "dependencies": {
-        "@ai16z/eliza": "0.1.4-alpha.3",
+        "@ai16z/eliza": "0.1.5-alpha.5",
         "@goat-sdk/core": "workspace:*",
-        "zod": "^3.23.8"
+        "zod": "catalog:"
     },
     "peerDependencies": {
-        "@ai16z/eliza": "0.1.4-alpha.3",
+        "@ai16z/eliza": "0.1.5-alpha.5",
         "@goat-sdk/core": "workspace:*"
     },
     "homepage": "https://ohmygoat.dev",

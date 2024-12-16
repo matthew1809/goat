@@ -1,4 +1,4 @@
-import type { Connection, TransactionInstruction } from "@solana/web3.js";
+import type { TransactionInstruction } from "@solana/web3.js";
 import type { WalletClient } from "./core";
 
 export function isSolanaWalletClient(wallet: WalletClient): wallet is SolanaWalletClient {
@@ -7,6 +7,7 @@ export function isSolanaWalletClient(wallet: WalletClient): wallet is SolanaWall
 
 export type SolanaTransaction = {
     instructions: TransactionInstruction[];
+    addressLookupTableAddresses?: string[];
 };
 
 export type SolanaReadRequest = {
