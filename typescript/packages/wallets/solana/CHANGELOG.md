@@ -1,5 +1,27 @@
 # @goat-sdk/wallet-solana
 
+## 0.1.9
+
+### Patch Changes
+
+- a66ceec: Fix jupiter swap tokens tx
+- Updated dependencies [a66ceec]
+  - @goat-sdk/core@0.3.15
+
+## 0.1.8
+
+### Patch Changes
+
+- d289856: Fix send transaction options
+
+## 0.1.7
+
+### Patch Changes
+
+- 16271ab: Simplify core architecture
+- Updated dependencies [16271ab]
+  - @goat-sdk/core@0.3.14
+
 ## 0.1.6
 
 ### Patch Changes

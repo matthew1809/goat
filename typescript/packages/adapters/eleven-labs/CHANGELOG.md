@@ -1,5 +1,20 @@
 # @goat-sdk/adapter-eleven-labs
 
+## 0.1.7
+
+### Patch Changes
+
+- Updated dependencies [a66ceec]
+  - @goat-sdk/core@0.3.15
+
+## 0.1.6
+
+### Patch Changes
+
+- 16271ab: Simplify core architecture
+- Updated dependencies [16271ab]
+  - @goat-sdk/core@0.3.14
+
 ## 0.1.5
 
 ### Patch Changes

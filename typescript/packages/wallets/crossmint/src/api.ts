@@ -209,6 +209,7 @@ export function createCrossmintAPI(crossmintClient: CrossmintApiClient) {
         const headers = new Headers({
             ...crossmintClient.authHeaders,
             ...(options.headers || {}),
+            "Content-Type": "application/json",
         });
 
         const response = await fetch(url, { ...options, headers });
@@ -317,7 +318,9 @@ export function createCrossmintAPI(crossmintClient: CrossmintApiClient) {
             })) as SignTypedDataResponse;
         },
         checkSignatureStatus: async (signatureId: string, walletAddress: string): Promise<ApproveSignatureResponse> => {
-            const endpoint = `/wallets/${encodeURIComponent(walletAddress)}/signatures/${encodeURIComponent(signatureId)}`;
+            const endpoint = `/wallets/${encodeURIComponent(
+                walletAddress,
+            )}/signatures/${encodeURIComponent(signatureId)}`;
 
             return (await request(endpoint, {
                 method: "GET",

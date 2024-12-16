@@ -1,5 +1,21 @@
 # @goat-sdk/plugin-jupiter
 
+## 0.0.4
+
+### Patch Changes
+
+- a66ceec: Fix jupiter swap tokens tx
+- Updated dependencies [a66ceec]
+  - @goat-sdk/core@0.3.15
+
+## 0.0.3
+
+### Patch Changes
+
+- 16271ab: Simplify core architecture
+- Updated dependencies [16271ab]
+  - @goat-sdk/core@0.3.14
+
 ## 0.0.2
 
 ### Patch Changes
